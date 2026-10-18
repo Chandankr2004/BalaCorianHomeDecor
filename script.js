@@ -76,7 +76,7 @@ document.getElementById("contactForm")?.addEventListener("submit", (event) => {
   const whatsappWindow = window.open(`https://wa.me/${BUSINESS_WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`, "_blank");
   const note = document.getElementById("formNote");
   note.textContent = "WhatsApp is opening. Please press Send in WhatsApp to submit your message.";
-  fetch("http://localhost:5000/api/enquiries", {
+ fetch("/api/enquiries", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, phone, customerType: type, interest, message })
