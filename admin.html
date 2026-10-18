@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Balaji Admin | Product & Enquiry Management</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.admin-wrap{min-height:100vh;background:#f3f5f9}.admin-top{background:#071d43;color:#fff;padding:20px 0}.admin-top .container{display:flex;align-items:center;justify-content:space-between;gap:15px}.admin-top h1{font:600 25px "Playfair Display",Georgia,serif;margin:0}.admin-top p{font-size:11px;color:#c9d4e6;margin:4px 0 0}.admin-main{padding:35px 0}.admin-card{max-width:980px;background:white;border:1px solid #e4e8ef;padding:25px;margin:0 auto 22px;box-shadow:0 8px 24px #071d4309}.admin-card h2{font:600 25px "Playfair Display",Georgia,serif;color:#071d43;margin:0 0 18px}.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.admin-form label{font-size:11px;font-weight:700;display:block;margin-bottom:5px}.admin-form input,.admin-form select,.admin-form textarea{width:100%;padding:11px;border:1px solid #dce2ec;background:#fff;font:12px "DM Sans",Arial,sans-serif}.admin-form .wide{grid-column:1/-1}.admin-btn{background:#071d43;color:white;border:0;padding:12px 16px;font-weight:800;font-size:11px;cursor:pointer}.admin-btn.yellow{background:#ffdf22;color:#071d43}.admin-btn:disabled{opacity:.5;cursor:wait}.admin-status{font-size:12px;padding:10px;background:#f4f6f9;margin:12px 0;color:#28364c;white-space:pre-wrap}.admin-status.error{background:#fff0f0;color:#a32323}.admin-hidden{display:none!important}.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.admin-tab{border:1px solid #dce2ec;background:white;padding:10px 14px;font-size:11px;font-weight:800;cursor:pointer}.admin-tab.active{background:#071d43;color:#fff}.admin-table-wrap{overflow:auto}.admin-table{border-collapse:collapse;width:100%;font-size:11px}.admin-table th,.admin-table td{text-align:left;padding:11px;border-bottom:1px solid #e8ebf1;vertical-align:top}.admin-table th{background:#f7f8fb;color:#536077}.admin-table select{padding:6px;border:1px solid #dce2ec;font-size:10px}.admin-table button{padding:7px 9px;border:0;background:#ffdf22;font-size:10px;font-weight:800;cursor:pointer}.login-card{max-width:440px;margin:65px auto}.small-note{font-size:10px;color:#788398;line-height:1.7}@media(max-width:600px){.admin-form{grid-template-columns:1fr}.admin-form .wide{grid-column:auto}.admin-card{padding:18px}.admin-top h1{font-size:20px}}
+</style>
+</head>
+<body class="admin-wrap">
+<header class="admin-top"><div class="container"><div><h1>Balaji Admin Panel</h1><p>Manage products and customer enquiries</p></div><a href="index.html" style="color:#ffdf22;font-size:11px;font-weight:800">View website ↗</a></div></header>
+<main class="admin-main container">
+<section id="loginSection" class="admin-card login-card">
+<p class="eyebrow dark"><span></span> SECURE ACCESS</p><h2>Admin login</h2>
+<form id="loginForm" class="admin-form"><div class="wide"><label for="username">Username</label><input id="username" required autocomplete="username" placeholder="Admin username"></div><div class="wide"><label for="password">Password</label><input id="password" type="password" required autocomplete="current-password" placeholder="Admin password"></div><div class="wide"><button class="admin-btn yellow" type="submit">Log in ↗</button></div></form>
+<div id="loginStatus" class="admin-status" aria-live="polite">Set up the server/.env file and start the API first.</div>
+<p class="small-note">Admin credentials are configured in <code>server/.env</code>. Never publish that file.</p>
+</section>
+<section id="dashboard" class="admin-hidden">
+<div class="admin-card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0">Dashboard</h2><button id="logout" class="admin-btn">Log out</button></div><div id="dashboardStatus" class="admin-status" aria-live="polite">Loading dashboard…</div>
+<div class="admin-tabs"><button class="admin-tab active" data-tab="productsPanel">Products</button><button class="admin-tab" data-tab="enquiriesPanel">Customer enquiries</button></div></div>
+<div id="productsPanel" class="admin-card">
+<h2>Add a product</h2><form id="productForm" class="admin-form">
+<div><label for="pName">Product name *</label><input id="pName" required></div>
+<div><label for="pCategory">Category *</label><select id="pCategory"><option value="mandir">Corian Mandir</option><option value="plywood">Plywood & Boards</option><option value="laminates">Laminates</option><option value="hardware">Furniture Hardware</option><option value="kitchen">Modular Kitchen</option><option value="interior">Home Decor & Interior</option><option value="wardrobe">Wardrobes & Furniture</option></select></div>
+<div><label for="pPrice">Price</label><input id="pPrice" placeholder="e.g. ₹6,500 or Price on enquiry"></div>
+<div><label for="pImage">Image path or URL</label><input id="pImage" placeholder="assets/product.jpg"></div>
+<div class="wide"><label for="pDescription">Description</label><textarea id="pDescription" rows="2"></textarea></div>
+<div class="wide"><button class="admin-btn yellow" type="submit">Add product</button></div>
+</form><div id="productStatus" class="admin-status" aria-live="polite"></div>
+<h2 style="margin-top:28px">Saved products</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Visibility</th><th>Action</th></tr></thead><tbody id="productsBody"></tbody></table></div>
+</div>
+<div id="enquiriesPanel" class="admin-card admin-hidden"><h2>Customer enquiries</h2><p class="small-note">New contact form submissions saved by the API will appear here.</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Interest</th><th>Message</th><th>Status</th></tr></thead><tbody id="enquiriesBody"></tbody></table></div><div id="enquiryStatus" class="admin-status" aria-live="polite"></div></div>
+</section>
+</main>
+<script>
+const API = "http://localhost:5000/api";
+let token = sessionStorage.getItem("balajiAdminToken") || "";
+const $ = id => document.getElementById(id);
+const status = (id, msg, error=false) => { const el=$(id); el.textContent=msg; el.classList.toggle("error",error); };
+async function request(path, options={}) {
+  const headers={"Content-Type":"application/json",...(options.headers||{})};
+  if(token) headers.Authorization=`Bearer ${token}`;
+  const response=await fetch(API+path,{...options,headers});
+  const data=await response.json().catch(()=>({message:"Unexpected server response."}));
+  if(!response.ok) throw new Error(data.message || `Request failed (${response.status})`);
+  return data;
+}
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();status("loginStatus","Signing in…");
+  try{const data=await request("/admin/login",{method:"POST",body:JSON.stringify({username:$("username").value,password:$("password").value})});token=data.token;sessionStorage.setItem("balajiAdminToken",token);showDashboard();}
+  catch(err){status("loginStatus",err.message+" Make sure the API is running and server/.env is configured.",true);}
+});
+function showDashboard(){ $("loginSection").classList.add("admin-hidden");$("dashboard").classList.remove("admin-hidden");loadProducts();loadEnquiries();}
+$("logout").addEventListener("click",()=>{token="";sessionStorage.removeItem("balajiAdminToken");$("dashboard").classList.add("admin-hidden");$("loginSection").classList.remove("admin-hidden");status("loginStatus","You have logged out.");});
+document.querySelectorAll(".admin-tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".admin-tab").forEach(b=>b.classList.toggle("active",b===btn));$("productsPanel").classList.toggle("admin-hidden",btn.dataset.tab!=="productsPanel");$("enquiriesPanel").classList.toggle("admin-hidden",btn.dataset.tab!=="enquiriesPanel");}));
+$("productForm").addEventListener("submit",async e=>{
+ e.preventDefault();status("productStatus","Saving product…");
+ try{await request("/admin/products",{method:"POST",body:JSON.stringify({name:$("pName").value,category:$("pCategory").value,price:$("pPrice").value||"Price on enquiry",image:$("pImage").value,description:$("pDescription").value})});e.target.reset();status("productStatus","Product saved to database.");await loadProducts();}
+ catch(err){status("productStatus",err.message,true);}
+});
+async function loadProducts(){try{const items=await request("/admin/products");$("productsBody").innerHTML=items.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.price||"—")}</td><td>${p.active?"Visible":"Hidden"}</td><td><button data-toggle="${p._id}" data-active="${p.active}">${p.active?"Hide":"Show"}</button> <button data-delete="${p._id}">Delete</button></td></tr>`).join("")||'<tr><td colspan="5">No saved products yet.</td></tr>';status("dashboardStatus",`${items.length} product record(s) loaded.`);}
+ catch(err){status("dashboardStatus",err.message,true);}
+}
+$("productsBody").addEventListener("click",async e=>{
+ const t=e.target.closest("[data-toggle]"),d=e.target.closest("[data-delete]");
+ try{if(t){await request("/admin/products/"+t.dataset.toggle,{method:"PATCH",body:JSON.stringify({active:t.dataset.active!=="true"})});await loadProducts();}
+ if(d&&confirm("Delete this product from the database?")){await request("/admin/products/"+d.dataset.delete,{method:"DELETE"});await loadProducts();}}
+ catch(err){status("productStatus",err.message,true);}
+});
+async function loadEnquiries(){try{const items=await request("/admin/enquiries");$("enquiriesBody").innerHTML=items.map(q=>`<tr><td>${new Date(q.createdAt).toLocaleDateString()}</td><td>${escapeHtml(q.name)}</td><td>${escapeHtml(q.phone)}</td><td>${escapeHtml(q.interest||"—")}</td><td>${escapeHtml(q.message||"—")}</td><td><select data-enquiry="${q._id}"><option ${q.status==="New"?"selected":""}>New</option><option ${q.status==="Contacted"?"selected":""}>Contacted</option><option ${q.status==="Closed"?"selected":""}>Closed</option></select></td></tr>`).join("")||'<tr><td colspan="6">No enquiries saved yet.</td></tr>';status("enquiryStatus",`${items.length} enquiry record(s) loaded.`);}
+catch(err){status("enquiryStatus",err.message,true);}}
+$("enquiriesBody").addEventListener("change",async e=>{const select=e.target.closest("[data-enquiry]");if(!select)return;try{await request("/admin/enquiries/"+select.dataset.enquiry,{method:"PATCH",body:JSON.stringify({status:select.value})});status("enquiryStatus","Enquiry status updated.");}catch(err){status("enquiryStatus",err.message,true);}});
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+if(token)showDashboard();
+</script>
+</body>
+</html>
