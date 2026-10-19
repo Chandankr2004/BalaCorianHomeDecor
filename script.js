@@ -1,4 +1,4 @@
-const BUSINESS_WHATSAPP_NUMBER = "919630589519"; // Balaji business WhatsApp number, digits only
+const BUSINESS_WHATSAPP_NUMBER = "919752535368"; // Balaji business WhatsApp number, digits only
 
 const menuToggle = document.getElementById("menuToggle");
 const nav = document.getElementById("nav");
